@@ -1,0 +1,17 @@
+---
+- name: Update IBM MQ on Ubuntu
+  hosts: mq_servers
+  become: true
+
+  tasks:
+    - name: Stop IBM MQ
+      shell: "dspmq | grep Running | awk '{print $1}' | xargs -r endmqm"
+      ignore_errors: yes
+
+    - name: Install IBM MQ
+      shell: "rpm -Uvh /path/to/mq/rpm/packages/*.rpm"  # Replace with the actual path to your MQ RPM packages
+      ignore_errors: yes
+
+    - name: Start IBM MQ
+      shell: "strmqm QMGR"  # Replace 'QMGR' with your specific queue manager name
+
