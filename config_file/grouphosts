@@ -1,0 +1,28 @@
+---
+all:
+  hosts:
+    web01:
+      ansible_host: 172.31.81.66
+          
+    web02:
+      ansible_host: 172.31.89.72
+      
+    db01:
+      ansible_host: 172.31.93.79     
+      
+  children:
+    webservers:
+      hosts:
+        web01:
+        web02:
+    dbservers:
+      hosts:
+        db01:
+    parent_group:
+      children:
+        webservers:
+        dbservers:
+      vars:
+        ansible_user: ubuntu
+        ansible_ssh_private_key_file: serverkey.pem 
+
