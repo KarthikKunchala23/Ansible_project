@@ -2,31 +2,47 @@
 - name: Webserver setup
   hosts: webservers
   become: true
-  tasks: 
+  vars:
+    packagename: apache2
+
+  tasks:
+    - debug: 
+        msg: "This is {{packagename}} installation"
+   
     - name: Install apache
       apt:
-        name: apache2
+        name: "{{packagename}}"
         state: present
 
     - name: Start service
       service: 
-        name: apache2
+        name: "{{packagename}}"
         state: started
 
 
 - name: Database server setup
   hosts: dbservers
   become: true
+  vars:
+    dbname: mysql-server
 
   tasks:
+    - debug: 
+        var: dbname
+
     - name: Update package lists
       apt:
         update_cache: yes
 
     - name: Install MySQL server
       apt:
-        name: mysql-server
+        name: "{{dbname}}"
         state: present
+      register: dbout
+
+    - name: print db output
+      debug: 
+        var: dbout
 
     # Additional tasks for database configuration and setup can be added here
  
