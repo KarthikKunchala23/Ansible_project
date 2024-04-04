@@ -38,11 +38,11 @@
       apt:
         name: "{{dbname}}"
         state: present
-      register: dbout
+      register: dbout1
 
     - name: print db output
       debug: 
-        var: dbout
+        var: dbout1
 
     # Additional tasks for database configuration and setup can be added here
  
